@@ -420,3 +420,16 @@ html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
 .glass-card { @apply slash-card; }
 .gradient-text { @apply text-gold; }
 .glow-button   { @apply btn-primary; }
+
+/* ============================================================
+   GLOBAL ANIMATIONS
+   ============================================================ */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.85); }
+}

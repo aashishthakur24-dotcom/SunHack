@@ -27,6 +27,7 @@ export default function Navbar() {
         { label: "Home", href: "/" },
         { label: "Dashboard", href: "/dashboard" },
         { label: "Canvas", href: "/canvas" },
+        { label: "Agents", href: "/agents" },
         { label: "Insights", href: "/insights" },
         { label: "Settings", href: "/settings" },
       ];

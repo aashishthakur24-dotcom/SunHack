@@ -10,6 +10,7 @@ import SettingsPage from "./pages/SettingsPage.tsx";
 import DashboardPage from "./pages/DashboardPage.tsx";
 import InsightsPage from "./pages/InsightsPage.tsx";
 import { SignInPage, RegisterPage } from "./pages/AuthPages.tsx";
+import AgentPipelinePage from "./pages/AgentPipelinePage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
             <Route path="/signin" element={<SignInPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/agents" element={<ProtectedRoute><AgentPipelinePage /></ProtectedRoute>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

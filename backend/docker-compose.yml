@@ -1,0 +1,86 @@
+version: "3.9"
+
+services:
+  # ── Neo4j Graph Database ──────────────────────────────────────────────────
+  neo4j:
+    image: neo4j:5.15-community
+    container_name: decisiondna-neo4j
+    ports:
+      - "7474:7474"   # Browser UI
+      - "7687:7687"   # Bolt protocol
+    environment:
+      NEO4J_AUTH: neo4j/decisiondna123
+      NEO4J_PLUGINS: '["apoc", "graph-data-science"]'
+      NEO4J_dbms_memory_heap_initial__size: 512m
+      NEO4J_dbms_memory_heap_max__size: 1G
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:7474"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── ChromaDB Vector Store ─────────────────────────────────────────────────
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: decisiondna-chroma
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      ANONYMIZED_TELEMETRY: "False"
+      CHROMA_SERVER_AUTH_PROVIDER: ""
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8000/api/v1/heartbeat"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Redis (Celery broker) ─────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: decisiondna-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── DecisionDNA Backend API ───────────────────────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: decisiondna-backend
+    ports:
+      - "8080:8080"
+    env_file: .env
+    environment:
+      NEO4J_URI: bolt://neo4j:7687
+      CHROMA_HOST: chromadb
+      CHROMA_PORT: 8000
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      neo4j:
+        condition: service_healthy
+      chromadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - .:/app
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  chroma_data:
+  redis_data:
