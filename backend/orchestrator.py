@@ -79,20 +79,20 @@ class AgentOrchestrator:
     def _build_graph(self):
         g = StateGraph(PipelineState)
 
-        g.add_node("ingest",   self._node_ingest)
-        g.add_node("reason",   self._node_reason)
-        g.add_node("memory",   self._node_memory)
-        g.add_node("conflict", self._node_conflict)
-        g.add_node("query",    self._node_query)
-        g.add_node("explain",  self._node_explain)
-        g.add_node("whatif",   self._node_whatif)
+        g.add_node("ingest",      self._node_ingest)
+        g.add_node("reason",      self._node_reason)
+        g.add_node("memory",      self._node_memory)
+        g.add_node("conflict",    self._node_conflict)
+        g.add_node("query_agent", self._node_query)
+        g.add_node("explain",     self._node_explain)
+        g.add_node("whatif",      self._node_whatif)
 
         g.set_entry_point("ingest")
         g.add_edge("ingest",   "reason")
         g.add_edge("reason",   "memory")
         g.add_edge("memory",   "conflict")
-        g.add_edge("conflict", "query")
-        g.add_edge("query",    "explain")
+        g.add_edge("conflict", "query_agent")
+        g.add_edge("query_agent", "explain")
         g.add_conditional_edges(
             "explain",
             lambda s: "whatif" if s.get("include_whatif") and s.get("whatif_variable") else END,

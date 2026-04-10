@@ -11,8 +11,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 
 from config import get_settings
+from automation import AutomationService
 from orchestrator import AgentOrchestrator
-from api.routes import ingest, query, decisions, agents, whatif
+from api.routes import ingest, query, decisions, agents, whatif, automations, supabase
 
 cfg = get_settings()
 
@@ -27,6 +28,7 @@ async def lifespan(app: FastAPI):
     logger.info("DecisionDNA backend starting...")
     orchestrator = AgentOrchestrator()
     app.state.orchestrator = orchestrator
+    app.state.automation_service = AutomationService(orchestrator)
     yield
     logger.info("Shutting down...")
     if orchestrator:
@@ -62,6 +64,8 @@ app.include_router(query.router,     prefix="/api/v1/query",     tags=["Query Ag
 app.include_router(decisions.router, prefix="/api/v1/decisions", tags=["Decisions"])
 app.include_router(agents.router,    prefix="/api/v1/agents",    tags=["Agent Status"])
 app.include_router(whatif.router,    prefix="/api/v1/whatif",    tags=["Intelligence Agent"])
+app.include_router(automations.router, prefix="/api/v1/automations", tags=["Automations"])
+app.include_router(supabase.router,  prefix="/api/v1/supabase",  tags=["Supabase"])
 
 
 # ── Health ────────────────────────────────────────────────────────────────────

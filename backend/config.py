@@ -12,8 +12,14 @@ class Settings(BaseSettings):
     # ── App ────────────────────────────────────────────────
     app_env: str = "development"
     app_port: int = 8080
-    cors_origins: str = "http://localhost:8081,http://localhost:3000"
+    cors_origins: str = "http://localhost:5173,http://localhost:8081,http://localhost:3000"
     secret_key: str = "change-me-in-production"
+
+    # ── Supabase ───────────────────────────────────────────
+    supabase_url: str = ""
+    supabase_anon_key: str = ""
+    supabase_service_role_key: str = ""
+    supabase_redirect_url: str = "http://localhost:5173/dashboard"
 
     # ── OpenAI ─────────────────────────────────────────────
     openai_api_key: str = ""
@@ -59,6 +65,10 @@ class Settings(BaseSettings):
     @property
     def cors_origins_list(self) -> list[str]:
         return [o.strip() for o in self.cors_origins.split(",")]
+
+    @property
+    def supabase_enabled(self) -> bool:
+        return bool(self.supabase_url and (self.supabase_service_role_key or self.supabase_anon_key))
 
 
 @lru_cache()

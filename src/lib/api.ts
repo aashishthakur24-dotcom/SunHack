@@ -80,6 +80,60 @@ export interface WhatIfResult {
   };
 }
 
+export interface AutomationPolicy {
+  confidence_threshold: number;
+  auto_apply: boolean;
+  require_human_approval: boolean;
+  max_conflicts_to_auto_block: number;
+}
+
+export interface AutomationDocument {
+  content: string;
+  source_type?: string;
+  title?: string;
+  author?: string;
+  thread_id?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface AutomationPlaybook {
+  id?: string;
+  name: string;
+  description?: string;
+  objective: string;
+  query?: string;
+  trigger?: "manual" | "webhook" | "schedule";
+  include_whatif?: boolean;
+  whatif_variable?: string;
+  whatif_change?: string;
+  documents?: AutomationDocument[];
+  enabled?: boolean;
+  policy?: Partial<AutomationPolicy>;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface AutomationAction {
+  id: string;
+  type: "review_conflict" | "approve_decision" | "notify" | "simulate";
+  title: string;
+  details: string;
+  requires_approval: boolean;
+  status: "proposed" | "approved" | "executed" | "rejected";
+}
+
+export interface AutomationRun {
+  id: string;
+  playbook_id: string;
+  status: "queued" | "running" | "awaiting_approval" | "completed" | "failed" | "rejected";
+  started_at: string;
+  finished_at?: string;
+  summary: string;
+  output: Record<string, unknown>;
+  actions: AutomationAction[];
+  errors: string[];
+}
+
 // ── Agent API ────────────────────────────────────────────────────────────────
 
 export const agentApi = {
@@ -150,6 +204,41 @@ export const whatIfApi = {
 
   riskMap: (decision_id: string) =>
     apiFetch<unknown>(`/whatif/risk-map/${decision_id}`),
+};
+
+// ── Automations API ──────────────────────────────────────────────────────────
+
+export const automationApi = {
+  list: () => apiFetch<{ playbooks: AutomationPlaybook[] }>("/automations/"),
+
+  create: (body: AutomationPlaybook) => apiFetch<AutomationPlaybook>("/automations/", {
+    method: "POST",
+    body: JSON.stringify(body),
+  }),
+
+  get: (playbookId: string) =>
+    apiFetch<AutomationPlaybook>(`/automations/${playbookId}`),
+
+  run: (playbookId: string, documents?: AutomationDocument[]) =>
+    apiFetch<AutomationRun>(`/automations/${playbookId}/run`, {
+      method: "POST",
+      body: JSON.stringify({ documents }),
+    }),
+
+  getRun: (runId: string) =>
+    apiFetch<AutomationRun>(`/automations/runs/${runId}`),
+
+  approveRun: (runId: string, approved: boolean, note = "") =>
+    apiFetch<AutomationRun>(`/automations/runs/${runId}/approve`, {
+      method: "POST",
+      body: JSON.stringify({ approved, note }),
+    }),
+
+  triggerWebhook: (playbookId: string) =>
+    apiFetch<AutomationRun>(`/automations/webhook/${playbookId}`, {
+      method: "POST",
+      body: JSON.stringify({}),
+    }),
 };
 
 // ── Health ────────────────────────────────────────────────────────────────────

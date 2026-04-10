@@ -128,6 +128,10 @@ export function SignInPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const handleDemo = () => {
+    navigate("/");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -334,6 +338,41 @@ export function SignInPage() {
               </Link>
             </p>
           </motion.form>
+
+          {/* Demo access */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.75 }}
+            style={{ marginTop: "1.5rem", padding: "1rem", borderRadius: 14, border: "1px dashed rgba(82,218,196,0.25)", background: "rgba(82,218,196,0.04)" }}
+          >
+            <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.35)", fontFamily: "Inter, sans-serif", textAlign: "center", marginBottom: "0.65rem", letterSpacing: "0.01em" }}>
+              🎯 Just here to explore? No account needed.
+            </p>
+            <motion.button
+              id="demo-access-btn"
+              type="button"
+              onClick={handleDemo}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+                padding: "0.75rem",
+                borderRadius: 10,
+                background: "linear-gradient(135deg, rgba(82,218,196,0.15), rgba(168,85,247,0.12))",
+                border: "1px solid rgba(82,218,196,0.3)",
+                color: "hsl(174,72%,56%)",
+                fontSize: 14,
+                fontFamily: "Inter, sans-serif",
+                fontWeight: 600,
+                cursor: "pointer",
+                letterSpacing: "0.01em",
+              }}
+            >
+              ✨ Continue as Demo
+            </motion.button>
+          </motion.div>
         </div>
       </motion.div>
     </div>
