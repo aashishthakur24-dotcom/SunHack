@@ -26,6 +26,7 @@ export default function Navbar() {
     : [
         { label: "Home", href: "/" },
         { label: "Dashboard", href: "/dashboard" },
+        { label: "Ask AI", href: "/query" },
         { label: "Canvas", href: "/canvas" },
         { label: "Agents", href: "/agents" },
         { label: "Insights", href: "/insights" },

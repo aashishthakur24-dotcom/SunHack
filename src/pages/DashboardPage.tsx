@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
 import {
   GitBranch, Zap, Shield, BarChart3, FileText, Mail,
-  Video, TrendingUp, Plus, ArrowRight, Clock,
+  Video, TrendingUp, Plus, ArrowRight, Clock, Search,
   Activity, RefreshCw, Star, ChevronRight, Sparkles,
   AlertOctagon, CheckCircle2, Circle
 } from "lucide-react";
@@ -225,6 +225,11 @@ export default function DashboardPage() {
               <Link to="/canvas" style={{ textDecoration: "none" }}>
                 <button className="btn-ghost btn-sm" style={{ fontSize: 12, padding: "6px 14px" }}>
                   <GitBranch style={{ width: 12, height: 12 }} /> Open Canvas
+                </button>
+              </Link>
+              <Link to="/query" style={{ textDecoration: "none" }}>
+                <button className="btn-ghost btn-sm" style={{ fontSize: 12, padding: "6px 14px", borderColor: "rgba(201,162,39,0.25)", color: "rgba(255,255,255,0.75)" }}>
+                  <Search style={{ width: 12, height: 12 }} /> Ask AI
                 </button>
               </Link>
               <Link to="/insights" style={{ textDecoration: "none" }}>
