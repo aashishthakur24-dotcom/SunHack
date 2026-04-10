@@ -1,0 +1,422 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 8%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 0 0% 12%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 12%;
+    --input: 0 0% 8%;
+    --ring: 0 0% 100%;
+
+    --radius: 1.5rem;
+
+    /* ── BLACK · GOLD · SILVER PALETTE ── */
+    --gold:       43 74% 49%;   /* #C9A227 */
+    --gold-light: 45 90% 65%;   /* #F0C040 bright gold */
+    --gold-dim:   40 50% 35%;   /* muted gold */
+    --silver:      0  0% 72%;   /* #B8B8B8 */
+    --silver-dim:  0  0% 45%;   /* #737373 muted silver */
+    --silver-bright: 0 0% 88%; /* #E0E0E0 near-white silver */
+
+    /* keep amber alias for existing button refs */
+    --amber: 43 74% 49%;
+    --teal:  43 74% 49%;        /* redirect teal → gold throughout */
+    --emerald: 43 74% 49%;
+    --violet:  0  0% 72%;       /* redirect violet → silver */
+    --rose:    0  0% 55%;
+
+    /* Slash-style grays */
+    --gray-1: 0 0% 5%;
+    --gray-2: 0 0% 8%;
+    --gray-3: 0 0% 14%;
+    --gray-4: 0 0% 38%;
+    --gray-5: 0 0% 58%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', serif;
+    font-feature-settings: "ss01", "ss02";
+  }
+}
+
+/* ============================================================
+   DESIGN SYSTEM — BLACK · GOLD · SILVER
+   ============================================================ */
+
+@layer utilities {
+
+  /* --- Typography --- */
+  .font-display   { font-family: 'Fraunces', serif; }
+  .font-sans-ui   { font-family: 'Inter', sans-serif; }
+
+  /* --- Glass --- */
+  .slash-glass {
+    background: rgba(255,255,255,0.025);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .slash-glass-hover:hover {
+    background: rgba(255,255,255,0.045);
+    border-color: rgba(255,255,255,0.12);
+    transition: all 0.3s ease;
+  }
+
+  /* --- Card — gold-edge on hover --- */
+  .slash-card {
+    background: hsl(var(--gray-1));
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 1.25rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .slash-card:hover {
+    border-color: hsl(var(--gold) / 0.25);
+    box-shadow: 0 0 0 1px hsl(var(--gold) / 0.06), 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  /* --- Gold card variant --- */
+  .gold-card {
+    background: linear-gradient(135deg, rgba(201,162,39,0.06) 0%, rgba(0,0,0,0) 60%);
+    border: 1px solid rgba(201,162,39,0.18);
+    border-radius: 1.25rem;
+  }
+
+  /* --- Buttons --- */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    color: #000000;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+    border: none;
+    white-space: nowrap;
+  }
+  .btn-primary:hover {
+    background: rgba(255,255,255,0.92);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(255,255,255,0.12);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  /* Gold primary variant */
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, hsl(var(--gold-light)), hsl(var(--gold)));
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    white-space: nowrap;
+    box-shadow: 0 4px 20px hsl(var(--gold) / 0.35);
+  }
+  .btn-gold:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 32px hsl(var(--gold) / 0.45);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 9999px;
+    background: transparent;
+    color: rgba(255,255,255,0.75);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+    border: 1px solid rgba(255,255,255,0.12);
+    white-space: nowrap;
+  }
+  .btn-ghost:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.22);
+    transform: translateY(-1px);
+  }
+
+  .btn-sm { padding: 0.5rem 1.25rem; font-size: 0.8125rem; }
+
+  /* --- Gradient text --- */
+  .text-gradient {
+    background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.55) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .text-gold {
+    background: linear-gradient(135deg, hsl(var(--gold-light)), hsl(var(--gold)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .text-silver {
+    background: linear-gradient(135deg, hsl(var(--silver-bright)), hsl(var(--silver)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  /* Legacy aliases → gold */
+  .text-gradient-teal  { @apply text-gold; }
+  .text-gradient-amber { @apply text-gold; }
+
+  /* --- Labels / Badges --- */
+  .slash-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+  .slash-label-accent {
+    background: hsl(var(--gold) / 0.08);
+    border-color: hsl(var(--gold) / 0.22);
+    color: hsl(var(--gold-light));
+  }
+  .slash-label-silver {
+    background: rgba(184,184,184,0.06);
+    border-color: rgba(184,184,184,0.18);
+    color: hsl(var(--silver));
+  }
+
+  /* --- Input --- */
+  .slash-input {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 9999px;
+    padding: 0.875rem 1.5rem;
+    color: #fff;
+    font-size: 0.9375rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .slash-input::placeholder { color: rgba(255,255,255,0.28); }
+  .slash-input:focus {
+    border-color: hsl(var(--gold) / 0.4);
+    box-shadow: 0 0 0 3px hsl(var(--gold) / 0.07);
+  }
+
+  /* --- Divider --- */
+  .slash-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.08) 70%, transparent);
+  }
+  .gold-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--gold) / 0.3) 40%, hsl(var(--gold) / 0.3) 60%, transparent);
+  }
+
+  /* --- Stat counters --- */
+  .stat-number {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  /* --- Section padding --- */
+  .section-pad    { padding: 7rem 1.5rem; }
+  .section-pad-sm { padding: 4rem 1.5rem; }
+
+  /* --- Gold glow --- */
+  .gold-glow {
+    box-shadow: 0 0 0 1px hsl(var(--gold) / 0.2), 0 0 40px hsl(var(--gold) / 0.08);
+  }
+  .teal-glow { @apply gold-glow; } /* legacy redirect */
+
+  /* --- AI Box — premium gold ─── */
+  .ai-analysis-box {
+    position: relative;
+    background: linear-gradient(135deg,
+      rgba(201,162,39,0.12) 0%,
+      rgba(15,15,15,0.95) 50%,
+      rgba(184,184,184,0.06) 100%
+    );
+    border: 1px solid rgba(201,162,39,0.3);
+    border-radius: 1.25rem;
+    overflow: hidden;
+  }
+  .ai-analysis-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, hsl(var(--gold-light)), rgba(184,184,184,0.4), transparent 60%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* --- Status dots --- */
+  .dot-live {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: hsl(var(--gold));
+    box-shadow: 0 0 6px hsl(var(--gold));
+    animation: pulse-dot 2s infinite;
+  }
+  .dot-risk    { width: 6px; height: 6px; border-radius: 50%; background: hsl(var(--silver)); }
+  .dot-conflict{ width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.4); }
+
+  /* --- Code mono --- */
+  .mono-tag {
+    font-family: 'Inter', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.32);
+  }
+
+  /* --- Shimmer --- */
+  .shimmer {
+    background: linear-gradient(90deg,rgba(255,255,255,0.02) 0%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.02) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  /* --- Gold shimmer --- */
+  .gold-shimmer {
+    background: linear-gradient(90deg,
+      rgba(201,162,39,0.0) 0%,
+      rgba(201,162,39,0.15) 50%,
+      rgba(201,162,39,0.0) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
+  }
+}
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes counter-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes gold-pulse {
+  0%, 100% { box-shadow: 0 0 20px hsl(43,74%,49%,0.15); }
+  50%       { box-shadow: 0 0 40px hsl(43,74%,49%,0.3); }
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+::-webkit-scrollbar       { width: 4px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #2a2a2a; }
+
+::selection { background: rgba(201,162,39,0.2); color: #fff; }
+
+/* ============================================================
+   NODE TYPES — gold/silver theme
+   ============================================================ */
+.node-safe     { border-color: hsl(var(--silver));      box-shadow: 0 0 12px hsl(var(--silver) / 0.2); }
+.node-risk     { border-color: hsl(var(--gold));        box-shadow: 0 0 12px hsl(var(--gold) / 0.25); }
+.node-conflict { border-color: rgba(255,255,255,0.4);   box-shadow: 0 0 12px rgba(255,255,255,0.1); }
+.node-info     { border-color: hsl(var(--silver-dim));  box-shadow: 0 0 12px hsl(var(--silver-dim) / 0.15); }
+
+/* compat */
+.glass      { @apply slash-glass rounded-2xl; }
+.glass-card { @apply slash-card; }
+.gradient-text { @apply text-gold; }
+.glow-button   { @apply btn-primary; }
